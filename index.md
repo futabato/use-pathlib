@@ -202,7 +202,7 @@ print(p)  # file.txtまでの絶対パスが表示される
 ↓
 
 ```text
-/home/futabato/ghq/github.com/futabato/use-pathlib/file.txt
+/home/user/ghq/github.com/futabato/use-pathlib/file.txt
 ```
 
 --
