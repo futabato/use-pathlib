@@ -1,7 +1,7 @@
 ---
 theme: "serif"
 transition: "convex"
-highlightTheme: "darkula"
+highlightTheme: "monokai"
 ---
 
 2025/04/23
@@ -10,19 +10,43 @@ highlightTheme: "darkula"
 
 ---
 
-
-
 本稿では、Pythonに標準で組み込まれているpathlibについて紹介します。
 
 [pathlib --- オブジェクト指向のファイルシステムパス](https://docs.python.org/ja/3.13/library/pathlib.html)
 
 ---
 
-## pathlibの概要
+普段からpathlib使っている人～～～～？
 
-Pythonでは、標準でファイルを操作するための、os モジュールが提供されていました。
+--
 
-os モジュールは文字列操作をベースに記述する方式でしたが、記述量が多く、やや可読性が低いだけなく、ミスが起こりやすい問題がありました。
+使っている人は偉いです。
+
+特に新しいこともないので、このままpathlibを使っていきましょう。
+
+--
+
+pathlib使っていない人！！
+
+os モジュール でファイルパス操作していますよね。
+
+```python
+>>> import os
+>>> os.path.join('hoge', 'fuga')
+>>> hoge/fuga
+```
+
+---
+
+Pythonでは、標準でファイルを操作するための、
+os モジュールが提供されています。
+
+os モジュールの特徴
+
+- 文字列操作ベースに記述する
+- 記述量が多い
+- やや可読性が低い
+- ミスが起こりやすい問題
 
 --
 
@@ -61,7 +85,9 @@ table {
 
 --
 
-例えば`os.path`で `os.path.join('hoge', 'fuga')` と実行すれば、`hoge/fuga` というパスが生成されます。
+例えば`os.path`では、
+
+ `os.path.join('hoge', 'fuga')` と実行すれば、`hoge/fuga` というパスが生成されます。
 
 ```python
 
@@ -71,13 +97,16 @@ table {
 
 --
 
-一見簡単にパスが作れて便利ですが、`os.path` には引数が絶対パスであるとその前の引数は無視されるという仕様があります。
+簡単にパスが作れて便利！
+ですが、
 
-[11.1. os.path — Common pathname manipulations — Python 3.3.7 documentation](https://docs.python.org/3.3/library/os.path.html#os.path.join)
+`os.path` には**引数が絶対パスであるとその前の引数は無視される**という仕様があります。
+
+[os.path — Common pathname manipulations — Python 3.13.3 documentation](https://docs.python.org/ja/3.13/library/os.path.html#os.path.join)
 
 --
 
-例えば、引数の `hoga` と `/fuga` を与えると、`hoge` は無視され、`/fuga` というパスが生成されます。
+例えば、引数の `hoga` に `/fuga` を与えると、`hoge` は無視され、`/fuga` というパスが生成されます。
 
 ```python
 >>> import os
@@ -92,7 +121,6 @@ table {
 ```jsx
 >>> os.path.join('/hoge', 'fuga', 'piyo')
 '/hoge/fuga/piyo'
-
 >>> os.path.join('hoge', 'fuga', '/piyo')
 '/piyo'
 >>> os.path.join('/hoge', 'fuga', '/piyo')
@@ -103,6 +131,27 @@ table {
 '/piyo'
 >>> os.path.join('/hoge', '/fuga', '/')
 '/'
+```
+
+--
+
+結構怖くないですか？
+
+---
+
+# DEMO
+
+<https://github.com/futabato/use-pathlib>
+
+--
+
+```shell
+git clone https://github.com/futabato/use-pathlib
+docker image build -t python-alpine .
+```
+
+```
+docker container run --rm python-alpine
 ```
 
 ---
@@ -116,8 +165,14 @@ table {
 ```python
 from pathlib import Path
 
-p = Path("/home/user/file.txt")  # Linux/Mac環境
-print(type(p), p)  # OSに応じたパス表記になる
+p = Path("/home/user/file.txt")
+print(type(p), p)
+```
+
+↓
+
+```text
+<class 'pathlib._local.PosixPath'> /home/user/file.txt
 ```
 
 --
@@ -126,7 +181,13 @@ print(type(p), p)  # OSに応じたパス表記になる
 
 ```python
 p = Path("/home/user/desktop") / "file.txt"
-print(p)  # /home/user/desktop/file.txt
+print(p)
+```
+
+↓
+
+```text
+/home/user/desktop/file.txt
 ```
 
 --
@@ -136,6 +197,12 @@ print(p)  # /home/user/desktop/file.txt
 ```python
 p = Path("file.txt").resolve()
 print(p)  # file.txtまでの絶対パスが表示される
+```
+
+↓
+
+```text
+/home/futabato/ghq/github.com/futabato/use-pathlib/file.txt
 ```
 
 --
@@ -156,24 +223,23 @@ print(p.is_file())  # ファイルか？ -> `True`
 
 --
 
-## ファイル・ディレクトリの操作方法
-
---
-
 ### ディレクトリの作成
 
-`parents` ：中間のディレクトリも作成する
-
 ```python
-p = Path("<path/to/new_directory>")
-p.mkdir(parents=True, exist_ok=True)  # ディレクトリを作成
+>>> p = Path.cwd() / 'test_dir'
+>>> p.is_dir()
+False
+>>> p.mkdir(parents=True, exist_ok=True) # ディレクトリ作成, parents:
+>>> p.is_dir()
+True
+>>>
 ```
+
+引数 `parents` ：中間のディレクトリも作成する
 
 --
 
-### ファイルの作成・削除
-
-`Path.rmdir()` が削除できるのは、空のディレクトリの場合のみ。空でないディレクトリを削除するには、`shutil.rmtree()` を使用する。
+### ファイルの削除
 
 ```python
 p = Path("test.txt")
@@ -183,9 +249,17 @@ p.unlink()  # ファイルを削除
 
 --
 
+### ディレクトリの削除
+
+`Path.rmdir()` が削除できるのは、空のディレクトリの場合のみ。
+
+空でないディレクトリを削除するには、`shutil.rmtree()` を使用する。
+
+--
+
 ### ファイル一覧の取得
 
-`Path.glob()` で正規表現を記述して、
+`Path.glob()` で正規表現を記述して、マッチするファイルの一覧を取得できる。
 
 ```python
 p = Path("/home/user/desktop")
@@ -198,10 +272,13 @@ for file in p.glob("*.txt"): # すべての .txt ファイルを取得
 ### ファイルの読み書き
 
 ```python
-p = Path("test.txt")
-
-p.write_text("Hello, pathlib!")  # ファイルに書き込み
-print(p.read_text())  # ファイルを読み込み
+>>> p = Path.cwd() / "test.txt"
+>>> p.touch()
+>>> p.write_text("Hello, from pathlib!")
+20
+>>> print(p.read_text())
+Hello, from pathlib!
+>>>
 ```
 
 ---
@@ -211,6 +288,7 @@ print(p.read_text())  # ファイルを読み込み
 クロスプラットフォーム対応する機会はあまりないとは思いますが、pathlib は OS の違いを意識せずに使えます。
 
 `Path` はデフォルトで OS に応じたパス区切り (`\` や `/`) を処理してくれるので、OS に依存しないコードを書けます。
+（osモジュールでやろうとすると結構地獄）
 
 --
 
@@ -239,4 +317,14 @@ elif system == "Darwin":
 
 Ruffやflake8 には、Pathlibが使われているか（osモジュールが使われていないか）をチェックするルールが存在します。
 
-[Rules | Ruff](https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth)
+[Rules flake8-use-pathlib (PTH)| Ruff](https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth)
+
+--
+
+```
+docker container run --rm python-alpine ruff check --select PTH
+```
+
+---
+
+END
