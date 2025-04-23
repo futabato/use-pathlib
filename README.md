@@ -17,3 +17,9 @@ Pythonの標準ライブラリである`pathlib`を使用して、ファイル�
    ```bash
    $ docker container run --rm python-alpine
    ```
+
+3. ruff によるチェック
+
+   ```
+   $ docker container run --rm python-alpine ruff check --select PTH
+   ```
