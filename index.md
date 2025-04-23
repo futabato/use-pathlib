@@ -2,15 +2,18 @@
 theme: "serif"
 transition: "convex"
 highlightTheme: "monokai"
+slideNumber: true
 ---
 
 2025/04/23
 
-# Pathlibを使おう
+## pathlibを使おう
+
+futabato
 
 ---
 
-本稿では、Pythonに標準で組み込まれているpathlibについて紹介します。
+本発表では、Pythonに標準で組み込まれているpathlibについて紹介します。
 
 [pathlib --- オブジェクト指向のファイルシステムパス](https://docs.python.org/ja/3.13/library/pathlib.html)
 
@@ -139,7 +142,7 @@ table {
 
 ---
 
-# DEMO
+## DEMO
 
 <https://github.com/futabato/use-pathlib>
 
@@ -313,7 +316,7 @@ elif system == "Darwin":
 
 ---
 
-# Pathlibを使わせよう
+## pathlibを使わせよう
 
 --
 
