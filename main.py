@@ -1,8 +1,8 @@
 import os
 
-# /workspace と /log ディレクトリを作成（ルートディレクトリには /log がある）
-os.makedirs('/workspace/log', exist_ok=True)  # /workspace/log 作成
-os.makedirs('/log', exist_ok=True)      # /log 作成（ルートディレクトリに）
+# /workspace/log と /log ディレクトリを作成
+os.makedirs('/workspace/log', exist_ok=True)
+os.makedirs('/log', exist_ok=True)
 
 print("ルートディレクトリの内容：")
 print(os.listdir('/'), end='\n\n')
