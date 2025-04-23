@@ -21,5 +21,5 @@ Pythonの標準ライブラリである`pathlib`を使用して、ファイル�
 3. ruff によるチェック
 
    ```
-   $ docker container run --rm python-alpine ruff check --select PTH
+   $ docker container run --rm python-alpine ruff check --select PTH .
    ```

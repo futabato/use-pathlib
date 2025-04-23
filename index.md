@@ -150,6 +150,8 @@ git clone https://github.com/futabato/use-pathlib
 docker image build -t python-alpine .
 ```
 
+--
+
 ```
 docker container run --rm python-alpine
 ```
@@ -322,7 +324,7 @@ Ruffやflake8 には、Pathlibが使われているか（osモジュールが使
 --
 
 ```
-docker container run --rm python-alpine ruff check --select PTH
+docker container run --rm python-alpine ruff check --select PTH .
 ```
 
 ---
