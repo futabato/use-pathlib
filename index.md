@@ -20,9 +20,9 @@ highlightTheme: "monokai"
 
 --
 
-使っている人は偉いです。
+使っている人は素晴らしいです👏
 
-特に新しいこともないので、このままpathlibを使っていきましょう。
+特に新しいこともないので、気楽にお過ごしください。
 
 --
 
@@ -317,7 +317,7 @@ elif system == "Darwin":
 
 --
 
-Ruffやflake8 には、Pathlibが使われているか（osモジュールが使われていないか）をチェックするルールが存在します。
+Ruffやflake8 には、Pathlibが使われているか（os.pathモジュールが使われていないか）をチェックするルールが存在します。
 
 [Rules flake8-use-pathlib (PTH)| Ruff](https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth)
 
