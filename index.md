@@ -342,4 +342,6 @@ from fastapi import FastAPI, Path as FastAPIPath
 
 ---
 
+## pathlibを使おう
+
 END
