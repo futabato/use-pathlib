@@ -329,4 +329,17 @@ docker container run --rm python-alpine ruff check --select PTH .
 
 ---
 
+## ちょっとだけ注意
+
+「Path」という名前は他ライブラリと衝突しやすいので、別名でimportすることを忘れないようにしましょう。
+
+
+```python
+from pathlib import Path
+
+from fastapi import FastAPI, Path as FastAPIPath
+```
+
+---
+
 END
